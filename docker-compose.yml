@@ -1,0 +1,91 @@
+version: "3.8"
+services:
+
+        c2db:
+                container_name: c2db
+                restart: always
+                build: 
+                        context: ./psqldir
+                        dockerfile: Dockerfile
+
+                        args:
+                               - C2DBName=c2db
+                               - C2DBUsername=c2admin
+                               - C2DBPassword=mojodojo101+
+                ports:
+                        - 5432:5432
+                
+                networks:
+                        c2_net:
+                                ipv4_address: 172.16.1.2
+
+
+        c2server:
+                container_name: c2server
+                restart: always
+                stdin_open: true
+                tty: true
+
+                build: 
+                        context: ./c2server
+                        dockerfile: Dockerfile
+                ports:
+                        - 80:80
+                        - 8888:8888
+
+                depends_on: 
+                        - "c2db"
+
+                environment:
+                        - C2BeaconPort=4444
+                        - C2ClientPort=8888
+                        - C2ClientUsername=mojo
+                        - C2ClientPassword=thetimestheyarechanging
+                        - C2DBName=c2db
+                        - C2DBHost=172.16.1.2
+                        - C2DBPort=5432
+                        - C2DBUsername=c2admin
+                        - C2DBPassword=mojodojo101+
+                        - C2DBTimezone=Europe/Berlin
+
+                networks:
+                        c2_net:
+                                ipv4_address: 172.16.1.3
+
+                        no-wan:
+                                ipv4_address: 10.10.10.2
+
+
+        c2beacon:
+                container_name: c2beacon
+                restart: always
+                build: 
+                        context: ./c2beacon
+                        dockerfile: Dockerfile
+
+
+                depends_on:
+                        - "c2server"
+
+                environment:
+                        - C2Ipv4=10.10.10.3
+                        - C2Url=http://10.10.10.2:4444/
+
+                networks:
+                        no-wan:
+                                ipv4_address: 10.10.10.3
+
+
+networks:
+       c2_net:
+               ipam:
+                       driver: default
+                       config:
+                               - subnet: "172.16.0.0/16"
+       no-wan:
+               internal: true
+               ipam:
+                       driver: default
+                       config:
+                               - subnet: "10.10.10.0/16"
+             
