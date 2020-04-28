@@ -25,6 +25,7 @@ Add a server.crt and server.key to c2server/cmd/c2api/ folder (x509)
 Using certbot to get a valid signed cert:
 
 sudo certbot standalone --http-01-port 8888
+
 sudo certbot certonly --standalone
 
 cp /etc/letsencrypt/live/<your-domain>/fullchain.pem c2server/cmd/c2api/server.crt
