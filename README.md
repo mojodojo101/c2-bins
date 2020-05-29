@@ -1,8 +1,6 @@
 # c2-bins
 
 
-## You can try the server out here [c2-angular-client](https://mojodojo101.xyz/)
-
 ## Greetings, this is a little command and control server i am working on
 
 ##### alot of the files are subject to change and will improve over time
