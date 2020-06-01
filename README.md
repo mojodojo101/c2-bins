@@ -5,7 +5,7 @@
 
 ##### alot of the files are subject to change and will improve over time
 
-##### POC can be found ![here](https://youtu.be/NPZT92Imsnc)
+##### POC can be found [here](https://youtu.be/NPZT92Imsnc)
 
 #### TODO LIST FOR ME:
 
